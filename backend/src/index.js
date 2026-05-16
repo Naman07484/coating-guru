@@ -32,6 +32,17 @@ app.get('/health', (req, res) => {
   res.json({ ok: true, message: 'Coating Guru backend running' });
 });
 
+// Database test (temporary — remove after confirming)
+app.get('/db-test', async (req, res) => {
+  try {
+    const db = require('./db');
+    const [rows] = await db.query('SELECT 1 as test');
+    res.json({ ok: true, db: 'connected', config: { host: process.env.DB_HOST, port: process.env.DB_PORT, user: process.env.DB_USER, database: process.env.DB_NAME } });
+  } catch (e) {
+    res.json({ ok: false, error: e.message, code: e.code, config: { host: process.env.DB_HOST, port: process.env.DB_PORT, user: process.env.DB_USER, database: process.env.DB_NAME } });
+  }
+});
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/bookings', require('./routes/bookings'));
