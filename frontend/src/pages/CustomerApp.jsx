@@ -48,7 +48,7 @@ return(
             WELCOME, <span style={{color:'var(--red)'}}>{user.name||'CUSTOMER'}</span>
           </h1>
           <p style={{color:'var(--gray)',fontSize:15,marginBottom:36}}>What would you like to do today?</p>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14}}>
             <div className="card" style={{cursor:'pointer',textAlign:'center',padding:32}} onClick={()=>nav('/customer/book')}>
               <div style={{fontSize:40,marginBottom:8}}>🚗</div>
               <div style={{fontFamily:'var(--font-display)',fontSize:22,marginBottom:4}}>BOOK A SERVICE</div>

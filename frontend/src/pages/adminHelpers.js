@@ -1,7 +1,9 @@
 import{formatDate,formatTime,INDIVIDUAL_SVC_PRICES}from'./bookingData';
+import{getJsPDF}from'./pdfUtils';
 
-export function downloadSheetPDF(b,user){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+export async function downloadSheetPDF(b,user){
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF();
   const svc=b.package_name||(()=>{let s=[];try{s=JSON.parse(b.services||'[]')}catch{}return s.join(', ');})()||'Custom';
   const jobNo='TCG-'+String(b.id).padStart(3,'0');
   // Parse individual services
@@ -81,8 +83,9 @@ export function downloadSheetPDF(b,user){
   doc.save(`TCG_Sheet_${jobNo}.pdf`);
 }
 
-export function downloadTodayListPDF(title,rows){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF('landscape');
+export async function downloadTodayListPDF(title,rows){
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF('landscape');
   const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'});
   doc.setFillColor(220,38,38);doc.rect(0,0,297,22,'F');
   doc.setTextColor(255);doc.setFontSize(16);doc.setFont('helvetica','bold');
@@ -106,8 +109,9 @@ export function downloadTodayListPDF(title,rows){
   doc.save(`TCG_${title.replace(/\s/g,'_')}_${today.replace(/\//g,'-')}.pdf`);
 }
 
-export function downloadWashJCpdf(jc){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+export async function downloadWashJCpdf(jc){
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF();
   const jobNo='WJC-'+String(jc.id).padStart(3,'0');
   doc.setFillColor(220,38,38);doc.rect(0,0,210,28,'F');
   doc.setTextColor(255);doc.setFontSize(22);doc.setFont('helvetica','bold');
@@ -130,8 +134,9 @@ export function downloadWashJCpdf(jc){
   doc.save(`TCG_WashJC_${jobNo}.pdf`);
 }
 
-export function downloadServiceJCpdf(jc){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+export async function downloadServiceJCpdf(jc){
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF();
   const jobNo='JC-'+String(jc.id).padStart(3,'0');
   doc.setFillColor(220,38,38);doc.rect(0,0,210,28,'F');
   doc.setTextColor(255);doc.setFontSize(22);doc.setFont('helvetica','bold');

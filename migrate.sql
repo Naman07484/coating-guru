@@ -1,25 +1,42 @@
--- Run this in MySQL Workbench on your coating_guru database
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  email VARCHAR(255),
+  password VARCHAR(255),
+  phone VARCHAR(20),
+  address TEXT,
+  role VARCHAR(50) DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-ALTER TABLE bookings
-  ADD COLUMN IF NOT EXISTS vehicle_make VARCHAR(100),
-  ADD COLUMN IF NOT EXISTS vehicle_model VARCHAR(100),
-  ADD COLUMN IF NOT EXISTS vehicle_year VARCHAR(4),
-  ADD COLUMN IF NOT EXISTS vehicle_color VARCHAR(100),
-  ADD COLUMN IF NOT EXISTS vehicle_regn VARCHAR(50),
-  ADD COLUMN IF NOT EXISTS customer_address TEXT,
-  ADD COLUMN IF NOT EXISTS customer_email VARCHAR(255),
-  ADD COLUMN IF NOT EXISTS pre_amount DECIMAL(10,2) DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS total_amount DECIMAL(10,2) DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS valid_till DATE,
-  ADD COLUMN IF NOT EXISTS payment_mode VARCHAR(50),
-  ADD COLUMN IF NOT EXISTS warranty VARCHAR(100);
+CREATE TABLE IF NOT EXISTS bookings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_name VARCHAR(255),
+  customer_phone VARCHAR(20),
+  customer_email VARCHAR(255),
+  customer_address TEXT,
+  vehicle_make VARCHAR(100),
+  vehicle_model VARCHAR(100),
+  vehicle_year VARCHAR(4),
+  vehicle_color VARCHAR(100),
+  vehicle_regn VARCHAR(50),
+  service_type VARCHAR(255),
+  pre_amount DECIMAL(10,2) DEFAULT 0,
+  total_amount DECIMAL(10,2) DEFAULT 0,
+  payment_mode VARCHAR(50),
+  warranty VARCHAR(100),
+  valid_till DATE,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-ALTER TABLE job_cards
-  ADD COLUMN IF NOT EXISTS technician VARCHAR(100),
-  ADD COLUMN IF NOT EXISTS time_start VARCHAR(10),
-  ADD COLUMN IF NOT EXISTS time_finish VARCHAR(10),
-  ADD COLUMN IF NOT EXISTS condition_rating VARCHAR(100);
-
-ALTER TABLE users
-  ADD COLUMN IF NOT EXISTS address TEXT,
-  ADD COLUMN IF NOT EXISTS email VARCHAR(255);
+CREATE TABLE IF NOT EXISTS job_cards (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  booking_id INT,
+  technician VARCHAR(100),
+  time_start VARCHAR(10),
+  time_finish VARCHAR(10),
+  condition_rating VARCHAR(100),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

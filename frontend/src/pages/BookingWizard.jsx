@@ -2,6 +2,7 @@ import{useState,useEffect}from'react';
 import{getLocations,getPackages,getAvailableSlots,createBooking,getLastVehicle}from'../api';
 import{useNavigate}from'react-router-dom';
 import{HOLIDAYS,MONTHS,DAYNAMES,VTYPES,BRANDS,COLORS,YEARS,PAYMENTS,WARRANTIES,INDIVIDUAL_SVCS,INDIVIDUAL_SVC_PRICES,getPriceKey,warrantyFromPkg,validTillFromPkg,formatDate,formatTime}from'./bookingData';
+import{getJsPDF}from'./pdfUtils';
 
 export default function BookingWizard(){
 const nav=useNavigate();
@@ -139,8 +140,9 @@ const confirmBooking=async()=>{
   setLoading(false);
 };
 
-const downloadPDF=()=>{
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+const downloadPDF=async()=>{
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF();
   const svc=f.selectedPkg?.name||f.services.join(', ')||'Custom';
   doc.setFillColor(220,38,38);doc.rect(0,0,210,28,'F');
   doc.setTextColor(255);doc.setFontSize(22);doc.setFont('helvetica','bold');

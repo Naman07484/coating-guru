@@ -24,6 +24,8 @@ const[wjcNum,setWjcNum]=useState(1);
 const[search,setSearch]=useState('');
 const[prevSub,setPrevSub]=useState('svc');
 
+const[adminMenuOpen,setAdminMenuOpen]=useState(false);
+
 const shToast=(t,m)=>{setToast({t,m});setTimeout(()=>setToast(null),3500);};
 
 const load=()=>{
@@ -213,7 +215,14 @@ return(
       <button className="btn-outline btn-sm" onClick={()=>{setJcBid('');setShowSJC(true);}}>+ JOB CARD</button>
       <button className="nav-btn" onClick={()=>{setOk(false);nav('/');}}>Logout</button>
     </div>
+    <button className="nav-hamburger" onClick={()=>setAdminMenuOpen(o=>!o)}>{adminMenuOpen?'✕':'☰'}</button>
   </nav>
+
+  {/* Admin mobile menu */}
+  <div className={`nav-mobile-menu${adminMenuOpen?' open':''}`}>
+    <button className="nav-mobile-btn" onClick={()=>{setJcBid('');setShowSJC(true);setAdminMenuOpen(false);}}>📋 New Job Card</button>
+    <button className="nav-mobile-btn" onClick={()=>{setOk(false);nav('/');setAdminMenuOpen(false);}}>🚪 Logout</button>
+  </div>
 
   <div className="page-wrap-wide" style={{paddingTop:70}}>
     <div style={{marginBottom:16}}>

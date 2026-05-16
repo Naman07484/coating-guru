@@ -1,6 +1,7 @@
 import{useEffect,useState}from'react';
 import{getUserBookings,checkWashEligibility,createBooking,getLocations,getAvailableSlots}from'../api';
 import{MONTHS,DAYNAMES,HOLIDAYS,formatDate,formatTime}from'./bookingData';
+import{getJsPDF}from'./pdfUtils';
 
 export default function MyBookings(){
 const[bookings,setBookings]=useState([]);
@@ -64,8 +65,9 @@ const svcLabel=(b)=>{
   return svcs.join(', ')||'Custom';
 };
 
-const downloadPDF=(b)=>{
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
+const downloadPDF=async(b)=>{
+  let jsPDF;try{jsPDF=await getJsPDF();}catch{alert('PDF library is loading, please try again.');return;}
+  const doc=new jsPDF();
   const svc=svcLabel(b);
   const jobNo='TCG-'+String(b.id).padStart(3,'0');
   doc.setFillColor(220,38,38);doc.rect(0,0,210,28,'F');

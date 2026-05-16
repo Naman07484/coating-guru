@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const PACKAGES = [
   { name:'TCG Crystal Series', warranty:'2 Year Warranty', features:['2 Coat Crystal Coating','Windshield Protection','Wheel Protection','Trim Protection'] },
@@ -24,6 +25,7 @@ const LOCATIONS = [
 
 export default function Home() {
   const nav = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div>
@@ -35,7 +37,15 @@ export default function Home() {
           <button className="nav-btn" onClick={() => document.getElementById('sec-locs').scrollIntoView({behavior:'smooth'})}>Locations</button>
           <button className="btn-red btn-sm" style={{marginLeft:8}} onClick={() => nav('/login')}>BOOK NOW</button>
         </div>
+        <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)}>{menuOpen ? '✕' : '☰'}</button>
       </nav>
+
+      {/* Mobile menu */}
+      <div className={`nav-mobile-menu${menuOpen ? ' open' : ''}`}>
+        <button className="nav-mobile-btn" onClick={() => {document.getElementById('sec-pkgs').scrollIntoView({behavior:'smooth'});setMenuOpen(false);}}>📦 Packages</button>
+        <button className="nav-mobile-btn" onClick={() => {document.getElementById('sec-locs').scrollIntoView({behavior:'smooth'});setMenuOpen(false);}}>📍 Locations</button>
+        <button className="nav-mobile-btn" onClick={() => {nav('/login');setMenuOpen(false);}}>🚗 Book Now</button>
+      </div>
 
       {/* HERO */}
       <div className="hero">
